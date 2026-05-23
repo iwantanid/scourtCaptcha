@@ -1,0 +1,12 @@
+{
+  "name": "scourt-captcha-scraper",
+  "version": "1.0.0",
+  "description": "대법원 나의 사건 검색 사이트에서 캡차 이미지를 자동 수집하는 Playwright 기반 스크래퍼",
+  "main": "app.js",
+  "scripts": {
+    "start": "node app.js"
+  },
+  "dependencies": {
+    "playwright": "^1.60.0"
+  }
+}

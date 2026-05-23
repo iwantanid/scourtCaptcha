@@ -23,9 +23,14 @@ ScourtCaptcha/ (Root)
 │   ├── answer_key.txt      # 6,090개의 정제된 정답 라벨 (0000.png ~ 6089.png)
 │   └── TrainingData/       # 6,090장의 캡차 학습용 원본 이미지 폴더
 │
-└── api/                    # 2. 모델 배포 및 서비스 API 모듈
-    ├── app.py              # FastAPI 서버와 드래그 앤 드롭 웹 검증 패널
-    └── captcha_model.pth   # 학습 완료된 최적의 모델 가중치 파일 (99.34% 정확도)
+├── api/                    # 2. 모델 배포 및 서비스 API 모듈
+│   ├── app.py              # FastAPI 서버와 드래그 앤 드롭 웹 검증 패널
+│   └── captcha_model.pth   # 학습 완료된 최적의 모델 가중치 파일 (99.34% 정확도)
+│
+└── scraper/                # 3. 캡차 이미지 수집 모듈 (Playwright)
+    ├── app.js              # 대법원 사이트에서 캡차 이미지를 자동 수집하는 스크립트
+    ├── package.json        # Node.js 의존성 설정
+    └── downloaded/         # (실행 시 자동 생성) 수집된 캡차 이미지 저장 폴더
 ```
 
 > **상대 경로 기반 설계**: 모든 스크립트는 상대 경로(Relative Path)를 사용합니다. 따라서 깃허브에서 저장소를 클론한 뒤 절대 경로를 수정할 필요 없이, 터미널 명령어 한 줄로 바로 학습하고 실행할 수 있습니다.
