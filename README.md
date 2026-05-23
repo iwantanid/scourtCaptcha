@@ -81,6 +81,63 @@ python -m uvicorn app:app --host 0.0.0.0 --port 8000 --reload
 ```
 *   서버를 구동하고 브라우저에서 `http://localhost:8000`에 접속하면, 화면에 준비된 테스트용 캡차를 클릭해 보거나 직접 준비한 캡차 이미지를 끌어다 놓아 판독 결과를 즉시 확인할 수 있습니다.
 
+### 4. API 호출 가이드 (HTTP POST /predict)
+FastAPI 서버가 제공하는 `/predict` 엔드포인트를 사용해 프로그램이나 웹에서 직접 캡차 판독을 요청하고 응답받을 수 있습니다. 요청 데이터는 `multipart/form-data` 형식으로 전송해야 하며, 키값은 `file`입니다.
+
+#### curl을 통한 터미널 요청
+터미널에서 `curl` 명령어로 로컬 캡차 이미지를 전송하여 결과를 즉시 수신합니다.
+```bash
+curl -X POST -F "file=@captcha_sample.png" http://localhost:8000/predict
+```
+*   **응답 JSON 구조**
+    ```json
+    {
+      "status": "success",
+      "prediction": "629474"
+    }
+    ```
+
+#### JavaScript (Fetch API) 요청 예시
+웹 브라우저나 프론트엔드 환경에서 비동기로 캡차 이미지를 서버로 전송하고 결과를 가로채는 자바스크립트 구현체 예시입니다.
+```javascript
+const formData = new FormData();
+// fileInput은 <input type="file"> 요소 또는 이미지 File 객체
+formData.append('file', fileInput.files[0]);
+
+fetch('http://localhost:8000/predict', {
+  method: 'POST',
+  body: formData
+})
+.then(response => response.json())
+.then(data => {
+  if (data.status === 'success') {
+    console.log('판독된 6자리 숫자:', data.prediction); // 예: "629474"
+  } else {
+    console.error('판독 연산 실패');
+  }
+})
+.catch(error => console.error('네트워크 연결 에러:', error));
+```
+
+#### Python (Requests 라이브러리) 요청 예시
+다른 자동화 프로그램이나 백엔드 파이썬 코드에서 캡차 판독 기능을 연동할 때 사용하는 요청 예시입니다.
+```python
+import requests
+
+url = "http://localhost:8000/predict"
+image_path = "captcha_sample.png"
+
+with open(image_path, "rb") as f:
+    files = {"file": f}
+    response = requests.post(url, files=files)
+
+if response.status_code == 200:
+    result = response.json()
+    print("판독 결과:", result["prediction"])  # 예: "629474"
+else:
+    print("API 호출 오류:", response.text)
+```
+
 ---
 
 ## 모델 성능 실측치
