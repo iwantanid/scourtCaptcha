@@ -1,3 +1,13 @@
+---
+title: Scourt Captcha Solver
+emoji: 🤖
+colorFrom: blue
+colorTo: indigo
+sdk: docker
+app_port: 7860
+pinned: false
+---
+
 # API — 캡차 판독 서버 및 웹 패널
 
 학습이 끝난 CNN 모델 가중치를 FastAPI로 서빙하는 모듈이다. 캡차 이미지를 HTTP POST로 보내면 6자리 숫자를 JSON으로 돌려준다. 브라우저에서 접속하면 드래그 앤 드롭 방식의 웹 검증 패널도 사용할 수 있다.
@@ -68,8 +78,6 @@ curl -X POST -F "file=@captcha.png" http://localhost:8000/predict
 ### Python
 
 ```python
-import requests
-
 with open("captcha.png", "rb") as f:
     resp = requests.post("http://localhost:8000/predict", files={"file": f})
 

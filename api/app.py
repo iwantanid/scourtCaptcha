@@ -104,7 +104,7 @@ def preprocess_image(image_bytes):
     img_arr = np.array(img, dtype=np.float32) / 255.0
     
     # Convert to tensor (1, 1, 40, 120)
-    img_tensor = torch.tensor(img_arr).unsqueeze(0).unsqueeze(0).to(device)
+    img_tensor = torch.from_numpy(img_arr).unsqueeze(0).unsqueeze(0).to(device)
     return img_tensor
 
 # 2. Prediction API Endpoint
